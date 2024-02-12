@@ -35,6 +35,8 @@ def get_access_token_via_code():
     return access_token
 
 
-ACCESS_TOKEN = env_variables['ACCESS_TOKEN']  # get_access_token_via_code()
+ACCESS_TOKEN =    get_access_token_via_code()
+#ACCESS_TOKEN = env_variables['ACCESS_TOKEN']  # get_access_token_via_code()
+
 ACTIVITY_HEADERS = {'Authorization': f'Authorization: Bearer {ACCESS_TOKEN}'}
 PROFILE_HEADERS = {'Authorization': f'Authorization: Bearer {env_variables["PROFILE_CODE"]}'}

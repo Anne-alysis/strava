@@ -14,6 +14,7 @@ Comparison of heart rate zones from my calculation, a Garmin watch, and Strava.
 """
 
 ZONE_NAMES = ['Warm Up', 'Easy', 'Aerobic', 'Threshold', 'Maximum']
+
 age = (datetime.date.today() - datetime.date.fromisoformat('1980-10-11')).days / 365
 max_heart_rate = 220 - age
 
@@ -37,7 +38,7 @@ def get_strava_heart_rate_zones() -> pd.DataFrame:
     zones_df['name'] = ZONE_NAMES
     zones_df['Position'] = range(1, 6)
     zones_df.rename(columns={'min': 'Strava_Min', 'max': 'Strava_Max'}, inplace=True)
-    zones_df.at[4, 'Strava_Max'] = int(zones_df.Strava_Min.max())
+    zones_df.at[4, 'Strava_Max'] = 190
     return zones_df
 
 
