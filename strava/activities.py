@@ -80,3 +80,11 @@ g = (ggplot(run_df, aes(x='Elevation Gain (ft)', y='avg_min_mile')) +
      geom_point(aes(fill='Location', size='Distance (miles)'), col='black', shape=21) + \
      theme_light() + ylab('Pace (min / mile)'))
 g.show()
+
+g = ggplot(run_df, aes(x='avg_min_mile')) + geom_histogram()
+g.show()
+
+g = ggplot(run_df, aes(x='date', y='suffer_score')) + \
+    geom_point(aes(fill='Location', size='Elevation Gain (ft)'), col='black', shape=21) + \
+    theme_light() + ylab('Suffer Score')
+g.show()
