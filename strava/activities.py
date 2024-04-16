@@ -62,9 +62,21 @@ run_df = df[df.type == 'Run']
 run_df['avg_min_mile'] = 1 / (run_df['average_speed'] * 0.0372823)
 run_df['Location'] = run_df['name'].apply(lambda x: x.split(':')[0])
 run_df['Distance (miles)'] = run_df['distance'] * 0.000621371
-run_df = run_df[run_df.Location != 'Cool down']
+run_df['Elevation Gain (ft)'] = run_df['total_elevation_gain'] * 3.28084
+excluded_names = ['Cool down', 'Warmup test']
+run_df = run_df[~run_df.Location.isin(excluded_names)]
 
 g = (ggplot(run_df, aes(x='date', y='avg_min_mile')) +
+     geom_point(aes(fill='Location', size='Distance (miles)'), col='black', shape=21) + \
+     theme_light() + ylab('Pace (min / mile)'))
+g.show()
+
+g = (ggplot(run_df, aes(x='date', y='avg_min_mile')) +
+     geom_point(aes(fill='Location', size='Elevation Gain (ft)'), col='black', shape=21) + \
+     theme_light() + ylab('Pace (min / mile)'))
+g.show()
+
+g = (ggplot(run_df, aes(x='Elevation Gain (ft)', y='avg_min_mile')) +
      geom_point(aes(fill='Location', size='Distance (miles)'), col='black', shape=21) + \
      theme_light() + ylab('Pace (min / mile)'))
 g.show()

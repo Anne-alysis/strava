@@ -5,14 +5,23 @@ from strava.auth.authorize import ACTIVITY_HEADERS
 
 # https://www.strava.com/settings/api
 
-URL = f"https://www.strava.com/api/v3/athlete/activities?per_page=200&page=1"
+URL = f"https://www.strava.com/api/v3/athlete/activities?per_page=200&page"
 
 
 def get_data() -> pd.DataFrame:
-    activities_response = requests.get(URL, headers=ACTIVITY_HEADERS)
-    activities = activities_response.json()
+    activities_data = []
+    for page in range(1, 1000):
+        print(f"Page: {page}")
+        activities_response = requests.get(f"{URL}={page}", headers=ACTIVITY_HEADERS)
+        activities_list = activities_response.json()
 
-    df = pd.DataFrame(activities)
+        if activities_response.status_code != 200:
+            raise Exception(f"Bad response: {activities_response.status_code}")
+        if len(activities_list) == 0:
+            break
+        activities_data.append(pd.DataFrame(activities_list))
+
+    df = pd.concat(activities_data)
 
     cols = ['id', 'name',
             'type', 'sport_type',
